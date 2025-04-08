@@ -1,3 +1,5 @@
+import time
+
 import allure
 from pages.base_page import BasePage
 from locators.recipe_creation_locators import RecipeCreationLocators as Rcl
@@ -9,7 +11,7 @@ class CreateRecipes(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
 
-
+    @allure.step('Добавляем ингредиенты ')
     def add_ingredient(self, name_ingredient, amount):
         self.set_input(Rcl.INGREDIENT_INPUT, name_ingredient)
         ingredients = self.find_elements(Rcl.INGREDIENTS_DROPDOWN)

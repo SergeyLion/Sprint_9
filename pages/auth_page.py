@@ -9,7 +9,7 @@ class AuthPage(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
 
-    @allure.step('Авторизуемся в Bnovo PMS')
+    @allure.step('Авторизуемся на сайте "Продуктовый помощник" ')
     def auth_login(self, user_email, user_password):
         self.set_input(Al.EMAIL_INPUT , user_email)
         self.set_input(Al.PASSWORD_INPUT, user_password)

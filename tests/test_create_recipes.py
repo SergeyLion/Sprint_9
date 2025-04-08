@@ -1,4 +1,3 @@
-import time
 import allure
 from utilities.data_generator import DataGenerator
 from data.data import AuthData as Ad
@@ -71,10 +70,10 @@ class TestCreateRecipes:
                 create_recipes.click_element(Rcl.SUBMIT_BUTTON)
 
         with allure.step("Проверка успешного создания"):
-            title_recipes = create_recipes.find_element(Rcdl.RECIPE_TITLE)
-            assert uid in title_recipes.text, (
+            title_recipes_text = create_recipes.get_element_text(Rcdl.RECIPE_TITLE)
+            assert uid in title_recipes_text, (
                 f"Ожидалось найти ID '{uid}' в названии рецепта, "
-                f"но получено: '{title_recipes.text}'"
+                f"но получено: '{title_recipes_text}'"
             )
             allure.attach(driver.get_screenshot_as_png(), name="Созданный рецепт",
                           attachment_type=allure.attachment_type.PNG)
