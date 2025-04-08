@@ -36,13 +36,13 @@ class TestCreateRecipes:
             allure.attach(name_recipes, "Уникальное название рецепта", allure.attachment_type.TEXT)
             allure.attach(comment, "Описание рецепта", allure.attachment_type.TEXT)
 
-        with allure.step("1. Авторизация пользователя"):
+        with allure.step("Авторизация пользователя"):
             auth_page.open(Ad.URL_AUTH)
             auth_page.auth_login(Ad.AUTH_USERNAME, Ad.AUTH_PASSWORD)
             allure.attach(driver.get_screenshot_as_png(), name="После авторизации",
                           attachment_type=allure.attachment_type.PNG)
 
-        with allure.step("2. Создание нового рецепта"):
+        with allure.step("Создание нового рецепта"):
             create_recipes.click_element(Rl.CREATE_RECIPE_LINK)
 
             with allure.step("Заполнение основных данных"):
@@ -70,7 +70,7 @@ class TestCreateRecipes:
             with allure.step("Отправка формы"):
                 create_recipes.click_element(Rcl.SUBMIT_BUTTON)
 
-        with allure.step("3. Проверка успешного создания"):
+        with allure.step("Проверка успешного создания"):
             title_recipes = create_recipes.find_element(Rcdl.RECIPE_TITLE)
             assert uid in title_recipes.text, (
                 f"Ожидалось найти ID '{uid}' в названии рецепта, "
