@@ -9,7 +9,7 @@ pipeline {
         stage('Prepare') {
             steps {
                 cleanWs()
-                git branch: 'develop', url: 'https://github.com/nikvrv/for_students_sprint_6.git'
+                git branch: 'develop', url: 'https://github.com/SergeyLion/Sprint_9.git'
             }
         }
 
