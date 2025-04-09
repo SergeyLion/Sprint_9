@@ -35,14 +35,16 @@ pipeline {
     }
 
     post {
-        always {
-            deleteDir() // Альтернатива cleanWs
+    always {
+        node {
+            deleteDir()
             script {
                 allure([
                     commandline: 'allure',
                     results: [[path: 'allure-results']],
                     report: 'allure-report'
                 ])
+                }
             }
         }
     }
