@@ -21,26 +21,11 @@ pipeline {
                             python3 -m venv venv
                             . venv/bin/activate
                             pip install -r requirements.txt
-                            pytest -v --alluredir=allure-results
+                            pytest tests/ -n auto
                         '''
                     }
                 }
             }
         }
 
-        stage('Report') {
-            steps {
-                allure includeProperties: false,
-                     jdk: '',
-                     results: [[path: 'allure-results']]
-            }
-        }
     }
-
-    post {
-        always {
-            archiveArtifacts artifacts: 'allure-results/**', fingerprint: true
-            cleanWs()
-        }
-    }
-}
