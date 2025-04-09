@@ -1,10 +1,6 @@
 pipeline {
-    agent {
-        docker {
-            image 'python:3.10-slim'
-            args '--shm-size=2g -v /var/run/docker.sock:/var/run/docker.sock'
-        }
-    }
+    agent any
+
     stages {
         stage('Setup') {
             steps {
@@ -12,26 +8,39 @@ pipeline {
                 sh 'pip install -r requirements.txt'
             }
         }
+
         stage('Run Tests') {
             steps {
                 sh 'pytest tests/ --alluredir=allure-results'
             }
         }
+
         stage('Generate Report') {
             steps {
-                allure([
-                    includeProperties: false,
-                    jdk: '',
-                    properties: [],
-                    reportBuildPolicy: 'ALWAYS',
-                    results: [[path: 'allure-results']]
-                ])
+                script {
+                    allure([
+                        commandline: 'allure-2.27.0',
+                        includeProperties: false,
+                        jdk: '',
+                        properties: [],
+                        report: 'allure-report',
+                        results: [[path: 'allure-results']]
+                    ])
+                }
             }
         }
     }
+
     post {
         always {
             cleanWs()
+            script {
+                allure([
+                    commandline: 'allure-2.27.0',
+                    report: 'allure-report',
+                    results: [[path: 'allure-results']]
+                ])
+            }
         }
     }
 }
