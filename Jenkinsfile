@@ -44,6 +44,7 @@ pipeline {
                     results: [[path: 'allure-results']],
                     report: 'allure-report'
                 ])
+                }
             }
         }
     }
