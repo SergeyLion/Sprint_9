@@ -36,7 +36,7 @@ pipeline {
 
     post {
     always {
-        node('master') {  // или другой лейбл вашего агента
+        node('мастер') {  // или другой лейбл вашего агента
             deleteDir()
             script {
                 allure([
