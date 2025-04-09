@@ -14,7 +14,7 @@ def driver():
         chrome_options.add_argument('--no-sandbox')  # добавили настройку
         chrome_options.add_argument('--disable-dev-shm-usage')  # добавили настройку
         chrome_options.add_argument(f'--user-data-dir={tempfile.mkdtemp()}')
-        driver = webdriver.Chrome()  # создали драйвер и передали в него настройки
+        driver = webdriver.Chrome(options=chrome_options)  # создали драйвер и передали в него настройки
         driver.set_window_size(1920, 1080)
         yield driver
         driver.quit()
