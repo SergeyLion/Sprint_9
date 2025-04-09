@@ -1,51 +1,46 @@
 pipeline {
-    agent {
-        docker {
-            image 'python:3.10-slim'
-            args '--shm-size=2g'
-        }
+    agent any
+
+    options {
+        skipDefaultCheckout true
     }
 
     stages {
-        stage('Setup') {
+        stage('Prepare') {
             steps {
-                sh 'python --version'
-                sh 'pip install --upgrade pip'
-                sh 'pip install -r requirements.txt'
+                cleanWs()
+                git branch: 'develop', url: 'https://github.com/nikvrv/for_students_sprint_6.git'
             }
         }
 
-        stage('Run Tests') {
-            steps {
-                sh 'pytest tests/ --alluredir=allure-results'
-            }
-        }
-
-        stage('Generate Report') {
+        stage('Test') {
             steps {
                 script {
-                    allure([
-                        commandline: 'allure',
-                        results: [[path: 'allure-results']],
-                        report: 'allure-report'
-                    ])
+                    withEnv(["PATH+EXTRA=/usr/local/bin:/opt/chrome"]) {
+                        sh '''
+                            python3 -m venv venv
+                            . venv/bin/activate
+                            pip install -r requirements.txt
+                            pytest -v --alluredir=allure-results
+                        '''
+                    }
                 }
+            }
+        }
+
+        stage('Report') {
+            steps {
+                allure includeProperties: false,
+                     jdk: '',
+                     results: [[path: 'allure-results']]
             }
         }
     }
 
     post {
-    always {
-        node('мастер') {  // или другой лейбл вашего агента
-            deleteDir()
-            script {
-                allure([
-                    commandline: 'allure',
-                    results: [[path: 'allure-results']],
-                    report: 'allure-report'
-                ])
-                }
-            }
+        always {
+            archiveArtifacts artifacts: 'allure-results/**', fingerprint: true
+            cleanWs()
         }
     }
 }
