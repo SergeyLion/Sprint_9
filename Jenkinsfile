@@ -36,7 +36,7 @@ pipeline {
 
     post {
     always {
-        node {
+        node('master') {  // или другой лейбл вашего агента
             deleteDir()
             script {
                 allure([
@@ -44,7 +44,6 @@ pipeline {
                     results: [[path: 'allure-results']],
                     report: 'allure-report'
                 ])
-                }
             }
         }
     }
