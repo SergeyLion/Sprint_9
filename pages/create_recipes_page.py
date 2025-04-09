@@ -1,4 +1,5 @@
 import time
+from time import sleep
 
 import allure
 from pages.base_page import BasePage
@@ -14,8 +15,7 @@ class CreateRecipes(BasePage):
     @allure.step('Добавляем ингредиенты ')
     def add_ingredient(self, name_ingredient, amount):
         self.set_input(Rcl.INGREDIENT_INPUT, name_ingredient)
-        ingredients = self.find_elements(Rcl.INGREDIENTS_DROPDOWN)
-        ingredients[0].click()
+        self.click_element_js(Rcl.INGREDIENTS_DROPDOWN)
         self.set_input(Rcl.INGREDIENT_AMOUNT_INPUT, amount)
         self.click_element(Rcl.ADD_INGREDIENT_BUTTON)
 
