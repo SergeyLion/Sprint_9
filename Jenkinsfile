@@ -11,7 +11,7 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                sh 'pytest tests/ --alluredir=allure-results'
+                sh 'pytest tests/ '
             }
         }
 
@@ -23,7 +23,7 @@ pipeline {
                         includeProperties: false,
                         jdk: '',
                         properties: [],
-                        report: 'allure-report',
+                        report: 'reports/allure-report',
                         results: [[path: 'allure-results']]
                     ])
                 }
@@ -37,7 +37,7 @@ pipeline {
             script {
                 allure([
                     commandline: 'allure-2.27.0',
-                    report: 'allure-report',
+                    report: 'reports/allure-report',
                     results: [[path: 'allure-results']]
                 ])
             }
