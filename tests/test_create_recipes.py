@@ -54,9 +54,9 @@ class TestCreateRecipes:
 
             with allure.step("Добавление ингредиентов"):
                 ingredients = [
-                    ("телячий фарш   ", 500),
-                    ("тортильи   ", 6),
-                    ("сыр   ", 30)
+                    ("телячий фарш", 500),
+                    ("тортильи", 6),
+                    ("сыр", 30)
                 ]
                 for name, amount in ingredients:
                     create_recipes.add_ingredient(name, amount)
